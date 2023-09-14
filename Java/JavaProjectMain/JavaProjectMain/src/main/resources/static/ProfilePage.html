@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>История за всички</title>
+    <link rel="stylesheet" href="styleSheet.css">
+</head>
+
+<body>
+	<header>
+		<h2 class="logo">История за всички!</h2>
+		<nav class="navigation">
+			<a href="HomePage.html" class="Nav-Btn">Начало</a>
+			<a href="AboutUs.html" class="Nav-Btn">За сайта</a>
+			<a href="ContactInfo.html" class="Nav-Btn">Контакти</a>
+            <a href="AdminMenu.html" class="Nav-Btn" id="AdminBtn">Админ</a>
+            <a href="#" class="LoginButton">
+                <button class="btnLogin-popup" id="BtnMainProfile">Профил</button>
+            </a>
+		</nav>
+	</header>
+    
+    <div class="wrapper">
+        <tbody id="userTableBody">
+            <div class="profile-container">
+                <!-- Username and Change Button -->
+                <div class="change-button-container">
+                    <p>Username: JohnDoe <button class="change-button">Change</button></p>
+                </div>
+                <p>Email: johndoe@example.com</p>
+                
+                <!-- Logout Button -->
+                <div class="logout-button-container">
+                    <button class="logout-button">Logout</button>
+                </div>
+            </div>
+        </tbody>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdn.botpress.cloud/webchat/v0/inject.js"></script>
+    <script>
+     window.botpressWebChat.init({
+      "composerPlaceholder": "Chat with Петър",
+      "botConversationDescription": "Историк оптимист тук да помогне!",
+      "botId": "9120557d-a63b-4e6b-9fcd-b1d03e04ee83",
+      "hostUrl": "https://cdn.botpress.cloud/webchat/v0",
+      "messagingUrl": "https://messaging.botpress.cloud",
+      "clientId": "9120557d-a63b-4e6b-9fcd-b1d03e04ee83",
+      "lazySocket": true,
+      "botName": "Петър",
+      "frontendVersion": "v0",
+      "showPoweredBy": true
+     });
+    </script>
+
+</body>
+
+</html>

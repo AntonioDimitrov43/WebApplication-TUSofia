@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>История за всички</title>
+    <link rel="stylesheet" href="styleSheet.css">
+</head>
+
+<body>
+	<header>
+		<h2 class="logo">История за всички!</h2>
+		<nav class="navigation">
+			<a href="HomePage.html" class="Nav-Btn">Начало</a>
+			<a href="AboutUs.html" class="Nav-Btn">За сайта</a>
+			<a href="ContactInfo.html" class="Nav-Btn">Контакти</a>
+            <a href="AdminMenu.html" class="Nav-Btn" id="AdminBtn">Админ</a>
+			<a href="#" class="LoginButton">
+                <button class="btnLogin-popup" id="BtnMainLogin">Влизане</button>
+            </a>
+            <a href="ProfilePage.html" class="LoginButton">
+                <button class="btnLogin-popup" id="BtnMainProfile">Профил</button>
+            </a>
+		</nav>
+	</header>
+    
+    <div class="wrapper">
+        <div class="form-box login">
+            <h2>Вход</h2>
+            <form action="#">
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                    <input type="text" required id="UserName" value="">
+                    <label>Потребителско име</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    <input type="password" required id="UserPassword" value="">
+                    <label>Парола</label>
+                </div>
+                <div class="remember-forgot">
+                    <label><input type="checkbox">Запомни ме
+                    </label>
+                    <a href="#">Забравена парола?</a>
+                </div>
+                <button type="submit" class="btn" id="Login">Вход</button>
+                <div class="login-register">
+                    <p>Нямаш акаунт? <a href="#" class="register-link">Регистрация</a></p>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-box register">
+            <h2>Регистрация</h2>
+            <form action="#">
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    <input type="text" required id="RegUserName" value="">
+                    <label>Потребителско име</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                    <input type="email" required id="UserEmail" value="">
+                    <label>Имейл</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    <input type="password" required id="RegUserPassword" value="">
+                    <label>Парола</label>
+                </div>
+                <button type="submit" class="btn" id="Register">Register</button>
+                <div class="login-register">
+                    <p>Вече имаш акаунт? <a href="#" class="login-link">Вход</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="popup-container">
+        <div class="popup-box">
+            <h1 id="Popup-Header"></h1>
+            <p id="Popup-Paragraph"></p>
+            <button class="close-Btn">ОК</button>
+        </div>
+    </div>
+
+    <div id="showAlert" style="display: none;">Успешна регистрация
+        <button id="btnSuccessNext">Напред</button>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdn.botpress.cloud/webchat/v0/inject.js"></script>
+    <script>
+     window.botpressWebChat.init({
+      "composerPlaceholder": "Chat with Петър",
+      "botConversationDescription": "Историк оптимист тук да помогне!",
+      "botId": "9120557d-a63b-4e6b-9fcd-b1d03e04ee83",
+      "hostUrl": "https://cdn.botpress.cloud/webchat/v0",
+      "messagingUrl": "https://messaging.botpress.cloud",
+      "clientId": "9120557d-a63b-4e6b-9fcd-b1d03e04ee83",
+      "lazySocket": true,
+      "botName": "Петър",
+      "frontendVersion": "v0",
+      "showPoweredBy": true
+     });
+    </script>
+
+</body>
+
+</html>
