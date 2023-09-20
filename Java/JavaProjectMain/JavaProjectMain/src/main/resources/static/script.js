@@ -122,7 +122,9 @@ btnProfile.style.display = "none";
             crossDomain: true,
             data: JSON.stringify({
                 username: userName,
-                password: userPassword
+                password: userPassword,
+                email: userEmail,
+                isAdmin: userIsAdmin
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -177,7 +179,9 @@ btnProfile.style.display = "none";
             crossDomain: true,
             data: JSON.stringify({
                 username: userName,
-                password: userPassword
+                password: userPassword,
+                email: userEmail,
+                isAdmin: userIsAdmin
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
