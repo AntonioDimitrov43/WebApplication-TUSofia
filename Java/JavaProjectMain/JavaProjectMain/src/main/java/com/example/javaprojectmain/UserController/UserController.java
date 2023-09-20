@@ -65,13 +65,11 @@ public class UserController {
 
     @PostMapping("/authUser")
     public boolean authenticateUser(@RequestBody User user) {
-
         return userService.authenticateUser(user.getUsername(), user.getPassword());
     }
 
     @PostMapping("/adminCheck")
     public boolean adminCheck(@RequestBody User user) {
-
         return userService.adminCheck(user.getUsername());
     }
 

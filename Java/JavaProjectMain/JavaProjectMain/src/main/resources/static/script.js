@@ -9,7 +9,7 @@ const btnLogin = document.querySelector('.LoginButton');
 const closeBtn = document.getElementsByClassName('close-Btn');
 
 
-//AdminBtn.style.display = "none";
+AdminBtn.style.display = "none";
 
 registerLink.addEventListener('click', ()=> {
     wrapper.classList.add('active');
@@ -102,45 +102,6 @@ btnProfile.style.display = "none";
                 alert(1);
             }
           })
-
-            
-       /* axios.post(`http://localhost:8080/api/siteusers/addUser`, user)
-             .then(response => {
-                if(response.data){
-                    
-                    popupContainer.classList.add('.active');
-                    var RegisterHeader = document.getElementById("Popup-Header");
-                    var RegisterPara = document.getElementById("Popup-Paragraph");
-
-                    RegisterHeader.textContent = "Успешна регистрация!";
-                    RegisterPara.textContent = "Моля затворете този прозорец и влезте в профила си!";
-
-                    closeBtn.onclick = () => {
-                        popupContainer.classList.remove('.active');
-                        RegisterHeader.textContent = "";
-                        RegisterPara.textContent = "";
-                    }
-                }
-                else{
-                    popupContainer.classList.add('.active');
-                    var RegisterHeader = document.getElementById("Popup-Header");
-                    var RegisterPara = document.getElementById("Popup-Paragraph");
-
-                    RegisterHeader.textContent = "Неуспешна регистрация!";
-                    RegisterPara.textContent = "Моля затворете този прозорец и опитайте отново!";
-
-                    closeBtn.onclick = () => {
-                        popupContainer.classList.remove('.active');
-                        RegisterHeader.textContent = "";
-                        RegisterPara.textContent = "";
-                    }
-                }
-                
-             })
-             .catch(error => {
-                 console.error(error);
-                 alert('Creation failed.');
-              });*/
     
            
      }
@@ -156,7 +117,7 @@ btnProfile.style.display = "none";
           };
 
           $.ajax({
-            url: "http://localhost:8080/siteusers/addUser",
+            url: "authUser",
             type: "POST",
             crossDomain: true,
             data: JSON.stringify({
@@ -170,12 +131,16 @@ btnProfile.style.display = "none";
                 {
                     CurrentUser.UserName=userName;
                     btnLogin.style.display = "none";
-                    adminCheck(user);
+                    adminCheck();
                     btnProfile.style.display = "block";
                     //Change Login Button to Profile Button
+
+                    if(CurrentUser.UserIsAdmin){
+                        AdminBtn.style.display = "block";
+                    }
                 }
                 else {
-                    popupContainer.classList.add('.active');
+                   /* popupContainer.classList.add('.active');
                     var RegisterHeader = document.getElementById("Popup-Header");
                     var RegisterPara = document.getElementById("Popup-Paragraph");
 
@@ -186,27 +151,53 @@ btnProfile.style.display = "none";
                         popupContainer.classList.remove('.active');
                         RegisterHeader.textContent = "";
                         RegisterPara.textContent = "";
-                    }
+                    }*/
+
+                    $('#showAlert').show();
+                    $('#btnSuccessNext').click(function() {
+                        location.reload();
+                    });
                 }
                 
             },
-            error: function(error){
-                console.error("Request failed:" + error.statusText);
-            }
+              error: function(xhr, status, error) {
+                  console.error("Request failed: " + status);
+                  console.error("Error details: " + error);
+                  alert(1);
+              }
           })
             
     }
 
     //Admin check when logging in to set visibility of Admin Page
-    function adminCheck(user){
-        axios.post(`${baseUrl}`,user)
-        .then(response => {
-            if(response.data){
-                CurrentUser.UserIsAdmin = 1;
-                //AdminBtn.style.display = "block";
+    function adminCheck() {
+        $.ajax({
+            url: "authUser",
+            type: "POST",
+            crossDomain: true,
+            data: JSON.stringify({
+                username: userName,
+                password: userPassword
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data == true) {
+                    CurrentUser.UserIsAdmin = 1;
+                    //AdminBtn.style.display = "block";
+                }
+                else {
+                    CurrentUser.UserIsAdmin = 0;
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Request failed: " + status);
+                console.error("Error details: " + error);
+                alert(1);
             }
+
         })
-    } 
+    }
 
     //Admin Delete
     function deleteUser() {
