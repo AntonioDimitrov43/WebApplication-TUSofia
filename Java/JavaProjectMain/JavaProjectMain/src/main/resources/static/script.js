@@ -110,6 +110,8 @@ btnProfile.style.display = "none";
      function authenticateUser() {
         const userName = document.getElementById('UserName').value;
         const userPassword = document.getElementById('UserPassword').value;
+        CurrentUser.UserName = userName;
+        CurrentUser.UserPassword = userPassword;
 
         const user = {
             userName,
@@ -123,8 +125,8 @@ btnProfile.style.display = "none";
             data: JSON.stringify({
                 username: userName,
                 password: userPassword,
-                email: userEmail,
-                isAdmin: userIsAdmin
+                email: null,
+                isAdmin: null
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -133,7 +135,7 @@ btnProfile.style.display = "none";
                 {
                     CurrentUser.UserName=userName;
                     btnLogin.style.display = "none";
-                    adminCheck();
+                    adminCheck(CurrentUser);
                     btnProfile.style.display = "block";
                     //Change Login Button to Profile Button
 
@@ -172,16 +174,16 @@ btnProfile.style.display = "none";
     }
 
     //Admin check when logging in to set visibility of Admin Page
-    function adminCheck() {
+    function adminCheck(UserMain){
         $.ajax({
             url: "authUser",
             type: "POST",
             crossDomain: true,
             data: JSON.stringify({
-                username: userName,
-                password: userPassword,
-                email: userEmail,
-                isAdmin: userIsAdmin
+                username: UserMain.UserName,
+                password: UserMain.UserPassword,
+                email: UserMain.UserEmail,
+                isAdmin: UserMain.UserIsAdmin
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -206,7 +208,7 @@ btnProfile.style.display = "none";
     //Admin Delete
     function deleteUser() {
         $.ajax({
-            url: "http://localhost:8080/siteusers/addUser",
+            url: "deleteUser",
             type: "POST",
             crossDomain: true,
             data: JSON.stringify({
