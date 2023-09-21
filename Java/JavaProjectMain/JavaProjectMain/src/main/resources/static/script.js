@@ -4,20 +4,20 @@ const registerLink = document.querySelector('.register-link');
 const AdminBtn = document.getElementById("AdminBtn");
 const popupContainer = document.querySelector('.popup-container');
 const closePopup = document.querySelector('.close-btn');
+const btnLoginTop = document.getElementById('BtnMainLogin');
 const btnProfile = document.getElementById('BtnMainProfile');
-const btnLogin = document.querySelector('.LoginButton');
+const btnLogin = document.getElementById('Login');
 const closeBtn = document.getElementsByClassName('close-Btn');
 
+if (window.location.pathname.endsWith('/user/login')) {
+    registerLink.addEventListener('click', () => {
+        wrapper.classList.add('active');
+    });
 
-AdminBtn.style.display = "none";
-
-registerLink.addEventListener('click', ()=> {
-    wrapper.classList.add('active');
-});
-
-loginLink.addEventListener('click', ()=> {
-    wrapper.classList.remove('active');
-});
+    loginLink.addEventListener('click', () => {
+        wrapper.classList.remove('active');
+    });
+}
 
 //Break in code
 
@@ -36,7 +36,6 @@ const CurrentUser = {
     UserEmail,
     UserIsAdmin
   };
-btnProfile.style.display = "none";
   //Register
     function createUser() {
         const userName = document.getElementById('RegUserName').value;
@@ -112,7 +111,6 @@ btnProfile.style.display = "none";
         const userPassword = document.getElementById('UserPassword').value;
         CurrentUser.UserName = userName;
         CurrentUser.UserPassword = userPassword;
-
         const user = {
             userName,
             userPassword
@@ -126,37 +124,16 @@ btnProfile.style.display = "none";
                 username: userName,
                 password: userPassword,
                 email: null,
-                isAdmin: null
+                isAdmin: 0
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(data){
                 if(data == true)
                 {
-                    CurrentUser.UserName=userName;
-                    btnLogin.style.display = "none";
-                    adminCheck(CurrentUser);
-                    btnProfile.style.display = "block";
-                    //Change Login Button to Profile Button
-
-                    if(CurrentUser.UserIsAdmin){
-                        AdminBtn.style.display = "block";
-                    }
+                    window.location="/user/home";
                 }
                 else {
-                   /* popupContainer.classList.add('.active');
-                    var RegisterHeader = document.getElementById("Popup-Header");
-                    var RegisterPara = document.getElementById("Popup-Paragraph");
-
-                    RegisterHeader.textContent = "Неуспешно влизане в профила!";
-                    RegisterPara.textContent = "Моля затворете този прозорец и опитайте отново!";
-
-                    closeBtn.onclick = () => {
-                        popupContainer.classList.remove('.active');
-                        RegisterHeader.textContent = "";
-                        RegisterPara.textContent = "";
-                    }*/
-
                     $('#showAlert').show();
                     $('#btnSuccessNext').click(function() {
                         location.reload();
@@ -167,113 +144,184 @@ btnProfile.style.display = "none";
               error: function(xhr, status, error) {
                   console.error("Request failed: " + status);
                   console.error("Error details: " + error);
-                  alert(1);
+                  alert(2);
               }
           })
             
     }
 
     //Admin check when logging in to set visibility of Admin Page
-    function adminCheck(UserMain){
+    // function adminCheck(UserMain){
+    //     $.ajax({
+    //         url: "authUser",
+    //         type: "POST",
+    //         crossDomain: true,
+    //         data: JSON.stringify({
+    //             username: UserMain.UserName,
+    //             password: UserMain.UserPassword,
+    //             email: UserMain.UserEmail,
+    //             isAdmin: UserMain.UserIsAdmin
+    //         }),
+    //         contentType: "application/json; charset=utf-8",
+    //         dataType: "json",
+    //         success: function (data) {
+    //             if (data == true) {
+    //                 CurrentUser.UserIsAdmin = 1;
+    //                 //AdminBtn.style.display = "block";
+    //             }
+    //             else {
+    //                 CurrentUser.UserIsAdmin = 0;
+    //             }
+    //         },
+    //         error: function(xhr, status, error) {
+    //             console.error("Request failed: " + status);
+    //             console.error("Error details: " + error);
+    //             alert(3);
+    //         }
+    //
+    //     })
+    // }
+
+    //Admin Delete
+async function deleteChosenUser(userNameDelete) {
+    return new Promise((resolve, reject) => {
         $.ajax({
-            url: "authUser",
-            type: "POST",
+            url: "deleteUser",
+            type: "DELETE",
             crossDomain: true,
             data: JSON.stringify({
-                username: UserMain.UserName,
-                password: UserMain.UserPassword,
-                email: UserMain.UserEmail,
-                isAdmin: UserMain.UserIsAdmin
+                username: userNameDelete
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (data) {
-                if (data == true) {
-                    CurrentUser.UserIsAdmin = 1;
-                    //AdminBtn.style.display = "block";
-                }
-                else {
-                    CurrentUser.UserIsAdmin = 0;
+            success: function(data) {
+                if (data === true) {
+                    resolve(true);
+                } else {
+                    resolve(false);
                 }
             },
             error: function(xhr, status, error) {
                 console.error("Request failed: " + status);
                 console.error("Error details: " + error);
-                alert(1);
+                alert(4);
             }
+        });
+    });
+}
 
-        })
-    }
-
-    //Admin Delete
-    function deleteUser() {
+async function makeUserAdmin(userNameAdmin) {
+    return new Promise((resolve, reject) => {
         $.ajax({
-            url: "deleteUser",
+            url: "makeAdmin",
             type: "POST",
             crossDomain: true,
             data: JSON.stringify({
-                username: userName,
-                password: userPassword
+                username: userNameAdmin,
+                isAdmin: 1
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function(data){
-                if(data == true)
-                {
-                
-                    //Change button at the top and change reference to a Profile Page
-                }
-                else{
-                    popupContainer.classList.add('.active');
-                    var RegisterHeader = document.getElementById("Popup-Header");
-                    var RegisterPara = document.getElementById("Popup-Paragraph");
-
-                    RegisterHeader.textContent = "Неуспешно изтриване на профила!";
-                    RegisterPara.textContent = "Моля затворете този прозорец и опитайте отново!";
-
-                    closeBtn.onclick = () => {
-                        popupContainer.classList.remove('.active');
-                        RegisterHeader.textContent = "";
-                        RegisterPara.textContent = "";
-                    }
+            success: function(data) {
+                if (data === true) {
+                    resolve(true);
+                } else {
+                    resolve(false);
                 }
             },
-            error: function(error){
-                console.error("Request failed:" + error.statusText);
+            error: function(xhr, status, error) {
+                console.error("Request failed: " + status);
+                console.error("Error details: " + error);
+                alert(4);
             }
-        })
-    }
-
-registerBtn.addEventListener("click", () =>{
-    createUser();
-});
-loginBtn.addEventListener("click", () =>{
-    authenticateUser();
-});
-
-function displayUsers() {
-
-    axios.get(`${baseUrl}/display`)
-        .then(response => {
-            const users = response.data;
-
-            const tableBody = document.getElementById('userTableBody');
-
-            users.forEach(user => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${user.username}</td>
-                    <td>${user.email}</td>
-                    <td>
-                        <button onclick="deleteUser(${user.username})">Delete</button>
-                        <button onclick="makeAdmin(${user.username})">Make Admin</button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-        })
-        .catch(error => {
-            console.error(error);
-            alert('Failed to fetch user data.');
         });
+    });
 }
+if (window.location.pathname.endsWith('/user/login')) {
+    registerBtn.addEventListener("click", () => {
+        createUser();
+    });
+    loginBtn.addEventListener("click", () => {
+        authenticateUser();
+    });
+}
+
+let userData =[
+
+];
+
+document.addEventListener('DOMContentLoaded', function () {
+    if (window.location.pathname.endsWith('/user/admin')) {
+        function getUsers() {
+            console.log("Inside getUsers");
+            $.ajax({
+                url: "getUsers",
+                type: "GET",
+                crossDomain: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    console.log("AJAX success:", data);
+                    if (Array.isArray(data)) {
+                        const tableBody = document.getElementById('userTable');
+                        userData = data;
+
+                        userData.forEach(userData => {
+                            console.log("AJAX success:", userData.username);
+                           let row = `
+                                <tr>
+                                    <td colspan="3" class="CurrentUser">${userData.username}</td>
+                                    <td>
+                                        <button class="change-button" id="deleteUser" onclick="handleDelete('${userData.username}')">Delete</button>
+                                        <button class="change-button" id="makeAdmin" onclick="handleMakeAdmin('${userData.username}')">Make Admin</button>
+                                    </td>
+                                </tr>
+                            `;
+                            if (row.length>0) {
+                                tableBody.innerHTML=tableBody.innerHTML + row;
+                            }
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Request failed: " + status);
+                    console.error("Error details: " + error);
+                    alert(4);
+                }
+            });
+        }
+
+        getUsers();
+    }
+});
+async function handleDelete(username) {
+    try {
+        const result = await deleteChosenUser(username);
+        if (result === true) {
+            alert(`User '${username}' has been deleted.`);
+        } else {
+            alert(`Successfully deleted user '${username}'.`);
+        }
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        alert(`Error deleting user '${username}': ${error.message}`);
+    }
+}
+
+async function handleMakeAdmin(username) {
+    try {
+        const result = await makeUserAdmin(username);
+        if (result === true) {
+            // User was successfully made admin
+            // Update the table or perform any other action
+            alert(`User '${username}' has been made admin.`);
+        } else {
+            // Making user admin failed or returned false
+            alert(`Failed to make user '${username}' admin.`);
+        }
+    } catch (error) {
+        console.error("Error making user admin:", error);
+        alert(`Error making user '${username}' admin: ${error.message}`);
+    }
+}
+

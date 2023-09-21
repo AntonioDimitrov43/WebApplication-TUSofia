@@ -6,44 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>История за всички</title>
-    <link rel="stylesheet" href="styleSheet.css">
+    <link rel="stylesheet" href="{URL}/styleSheet.css">
 </head>
 
 <body>
 	<header>
-		<h2 class="logo">История за всички!</h2>
-		<nav class="navigation">
-			<a href="HomePage.html" class="Nav-Btn">Начало</a>
-			<a href="AboutUs.html" class="Nav-Btn">За сайта</a>
-			<a href="ContactInfo.html" class="Nav-Btn">Контакти</a>
-            <a href="#" class="Nav-Btn" id="AdminBtn">Админ</a>
-			<a href="LoginPage.html" class="LoginButton">
-                <button class="btnLogin-popup">Влизане</button>
-            </a>
-		</nav>
+		{menu}
 	</header>
 
-    <div class="main-wrapper">
-        <div class="main-box">
-            <tbody id="userTable">
-                <tr class="user-row">
-                    <td>Petko</td>
-                        <td>petkomail@gmail.com</td>
-                        <td>
-                            <button class="change-button">Delete</button>
-                            <button class="change-button">Admin</button>
-                    </td>
-                </tr>
-                <br>
-                <tr class="user-row">
-                    <td>Ivan</td>
-                        <td>ivandragan@abv.bg</td>
-                        <td>
-                            <button class="change-button">Delete</button>
-                            <button class="change-button">Admin</button>
-                    </td>
-                </tr>
-            </tbody>
+    <div class="main-wrapper listUsers">
+        <div class="main-box BoxUsers">
+            <table id="UsersTable">
+                <tbody id="userTable">
+
+                <!-- Add more user rows as needed -->
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -55,7 +33,7 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="script.js"></script>
+    <script src="{URL}/script.js"></script>
     <script src="https://cdn.botpress.cloud/webchat/v0/inject.js"></script>
     <script>
      window.botpressWebChat.init({

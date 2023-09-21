@@ -2,6 +2,7 @@ package com.example.javaprojectmain.UserService;
 
 import com.example.javaprojectmain.User.User;
 import com.example.javaprojectmain.UserRepository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.mindrot.jbcrypt.BCrypt;
@@ -13,6 +14,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    private String StoredSalt = "$2a$15$LESFhTgawuYYgBJ.wcU9o.";
     public User createUser(User user) {
         // Check if the user already exists
         User existingUser = userRepository.findByUsername(user.getUsername());
@@ -21,13 +23,27 @@ public class UserService {
         }
 
         // Save the new user
+        String hashedPassword = BCrypt.hashpw(user.getPassword(),StoredSalt);
+        user.setPassword(hashedPassword);
+
         return userRepository.save(user);
     }
 
-    public boolean authenticateUser(String userName, String userPassword) {
+    public boolean authenticateUser(String userName, String userPassword, HttpSession session) {
         User user = userRepository.findByUsername(userName);
+        try{
+            BCrypt.checkpw(userPassword, user.getPassword());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
 
-        return user != null && BCrypt.checkpw(userPassword, user.getPassword()); // User exists and password matches if not then authentication failed
+        if(user != null){
+            session.setAttribute("userId",user.getId());
+            return true;
+        }
+        return false;
     }
 
     public boolean adminCheck(String userName) {
@@ -45,11 +61,15 @@ public class UserService {
 
     public boolean checkIfExist(String userName) {
         User user = userRepository.findByUsername(userName);
-
+        System.out.println(userName);
         return user != null;
     }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public User getUserDataByID(Integer userId){
+        return userRepository.findByid(userId);
     }
 }
